@@ -8,6 +8,8 @@ A dependency-free, read-only running-plan PWA designed for iPhone Safari and Git
 - Shows the next scheduled run
 - Displays all seven days so gym and rest-day context stays visible
 - Includes the exact running prescriptions for Aug 31-Oct 11, 2026
+- Shows temporary, history-based pace ranges for every run until the Oct 10 time trial recalibrates them
+- Lists only run days and color-codes each card by run type
 - Includes effort definitions, readiness rules, weekly adjustment rules, and the 5K time-trial gate
 - Supports manual week navigation
 - Works offline after the first successful visit
