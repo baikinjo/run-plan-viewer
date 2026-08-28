@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Run Plan">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Run Plan Viewer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d16;
+      --panel: #111827;
+      --panel-2: #182235;
+      --line: #2a3850;
+      --text: #f8fafc;
+      --muted: #9fb0c8;
+      --accent: #38bdf8;
+      --accent-dark: #102b3a;
+      --gym: #a3e635;
+      --rest: #c4b5fd;
+      --danger: #fb7185;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .app {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: calc(16px + env(safe-area-inset-top)) 14px calc(32px + env(safe-area-inset-bottom));
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 2px; font-size: 1.45rem; }
+    h2 { margin-bottom: 8px; font-size: 1.1rem; }
+    h3 { margin-bottom: 5px; font-size: 1rem; }
+    .muted { color: var(--muted); }
+    .small { font-size: .82rem; }
+
+    .status-pill,
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .card {
+      margin-bottom: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+    }
+
+    .next-card {
+      border-color: #1f7698;
+      background: linear-gradient(145deg, #102b3a, var(--panel) 72%);
+    }
+
+    .eyebrow {
+      margin-bottom: 5px;
+      color: var(--accent);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .next-head,
+    .section-head,
+    .day-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .next-head h2,
+    .section-head h2 {
+      margin-bottom: 4px;
+    }
+
+    .prescription {
+      margin-bottom: 8px;
+      font-weight: 750;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 4px;
+      margin: 0;
+      padding-left: 19px;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .week-tabs {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .week-tab {
+      min-height: 40px;
+      padding: 7px 4px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0c1321;
+      color: var(--muted);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .week-tab[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--accent-dark);
+      color: var(--accent);
+    }
+
+    .week-purpose {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .day-list {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .day-card {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--line);
+      border-radius: 13px;
+      background: var(--panel);
+    }
+
+    .day-card.run { border-left-color: var(--accent); }
+    .day-card.gym { border-left-color: var(--gym); }
+    .day-card.rest { border-left-color: var(--rest); }
+
+    .day-card.today {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .day-card.next {
+      background: linear-gradient(145deg, #102331, var(--panel) 75%);
+    }
+
+    .day-date {
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 750;
+    }
+
+    .type-pill.run {
+      border-color: #1f7698;
+      color: var(--accent);
+    }
+
+    .type-pill.gym {
+      border-color: #536c24;
+      color: var(--gym);
+    }
+
+    .type-pill.rest {
+      border-color: #655c8e;
+      color: var(--rest);
+    }
+
+    .day-card .prescription { margin: 4px 0 0; }
+    .day-card .detail-list { margin-top: 7px; }
+
+    details {
+      margin-bottom: 10px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--panel);
+    }
+
+    details:last-child { margin-bottom: 0; }
+
+    summary {
+      padding: 12px 14px;
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    details[open] summary {
+      border-bottom: 1px solid var(--line);
+      color: var(--accent);
+    }
+
+    .details-body {
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: .86rem;
+    }
+
+    .details-body p:last-child,
+    .details-body ul:last-child,
+    .details-body ol:last-child {
+      margin-bottom: 0;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px 10px;
+      margin: 0;
+    }
+
+    .guide-grid dt {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .guide-grid dd { margin: 0; }
+
+    .source-note {
+      margin: 14px 2px 0;
+      color: var(--muted);
+      font-size: .75rem;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      .app { padding-inline: 10px; }
+      .card { padding: 11px; }
+      h1 { font-size: 1.3rem; }
+      .week-tabs {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 3px;
+        scrollbar-width: none;
+      }
+      .week-tabs::-webkit-scrollbar { display: none; }
+      .week-tab { flex: 0 0 54px; }
+      .guide-grid { grid-template-columns: 1fr; gap: 2px; }
+      .guide-grid dd { margin-bottom: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Run Plan</h1>
+        <div class="muted small">View only &middot; no workout data stored</div>
+      </div>
+      <div id="cycleState" class="status-pill"></div>
+    </header>
+
+    <section id="nextCard" class="card next-card">
+      <div class="eyebrow">Next run</div>
+      <div class="next-head">
+        <div>
+          <h2 id="nextTitle"></h2>
+          <div id="nextDate" class="muted small"></div>
+        </div>
+        <span id="nextWeek" class="status-pill"></span>
+      </div>
+      <p id="nextPrescription" class="prescription"></p>
+      <ul id="nextDetails" class="detail-list"></ul>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Cycle 3 &middot; Fresh Start</div>
+          <h2 id="weekTitle"></h2>
+        </div>
+        <div id="weekRange" class="muted small"></div>
+      </div>
+      <nav id="weekTabs" class="week-tabs" aria-label="Training week"></nav>
+      <p id="weekPurpose" class="week-purpose"></p>
+    </section>
+
+    <section id="dayList" class="day-list" aria-live="polite"></section>
+
+    <section aria-label="Running guidance">
+      <details>
+        <summary>Effort guide</summary>
+        <div class="details-body">
+          <dl class="guide-grid">
+            <dt>Easy / recovery</dt>
+            <dd>RPE 2-3 and full-sentence talk test. HR cap 145 in Weeks 1-2, then 150.</dd>
+            <dt>Strides</dt>
+            <dd>About 20 seconds relaxed and controlled, never sprinting, with full walk/jog recovery.</dd>
+            <dt>Threshold</dt>
+            <dd>RPE 6-7 and sustainable form. HR ceiling 175; ease pace if HR stays above it.</dd>
+            <dt>Intervals</dt>
+            <dd>RPE 7-8, repeatable across every repetition, never all-out.</dd>
+            <dt>Time trial</dt>
+            <dd>All-out only after the Week 5 readiness gate passes.</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details>
+        <summary>Before-run and stop rules</summary>
+        <div class="details-body">
+          <p><strong>Before:</strong> ordinary daily activity should feel normal and the easy warmup must pass the full-sentence talk test. If warmup is RPE 4+ or HR is about 10 bpm above the recent easy pattern, replace quality with 30 minutes easy or stop.</p>
+          <p><strong>Stop:</strong> chest pain or tightness, palpitations, dizziness, faintness, disproportionate breathlessness, fever or systemic symptoms, sharp or focal pain, altered gait, nausea, confusion, or escalating heat distress.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Weekly adjustment rules</summary>
+        <div class="details-body">
+          <ul>
+            <li>Never make up a missed run, add missed distance elsewhere, or stack quality sessions.</li>
+            <li>Preserve sessions in this order: Monday quality, Saturday long, Wednesday easy/strides, Sunday recovery.</li>
+            <li>If fewer than three runs are completed, repeat the next week's dose and shift the remaining cycle and TT by seven days.</li>
+            <li>If Thursday lifting causes soreness of 4/10 or more, cap Saturday at the prior completed long-run duration.</li>
+            <li>If soreness changes gait, skip the run.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Oct 10 time-trial gate</summary>
+        <div class="details-body">
+          <ol>
+            <li>No fever, chest symptoms, unusual breathlessness, palpitations, or illness recurrence.</li>
+            <li>At least three runs completed in each of Weeks 3-5.</li>
+            <li>Week 5 threshold stayed at RPE 7 or lower without sustained HR above 175.</li>
+            <li>Week 5 long run reached at least 70 minutes without altered gait, focal pain, or abnormal next-day fatigue.</li>
+            <li>Easy running returned to stable conversational effort without unexplained HR/RPE rise across two consecutive runs.</li>
+          </ol>
+          <p>If any condition fails, replace the TT with 45 minutes easy and extend the rebuild.</p>
+        </div>
+      </details>
+    </section>
+
+    <p class="source-note">Synced from running-plan.md on Aug 27, 2026. The Markdown plan remains the source of truth.</p>
+  </main>
+
+  <script>
+    const weeks = [
+      {
+        number: 1,
+        title: "Week 1 - Re-entry",
+        start: "2026-08-31",
+        end: "2026-09-06",
+        purpose: "Restore four easy running exposures and lower-body impact tolerance. Expected running time is 140 minutes; distance is not a target.",
+        days: [
+          { date: "2026-08-31", type: "run", title: "Easy re-entry", prescription: "30 min easy", details: ["HR cap 145", "Full-sentence talk test"] },
+          { date: "2026-09-01", type: "gym", title: "Full Body A", prescription: "Gym re-entry only; no run.", details: ["Use the Week 1 priming phase in Gym Tracker"] },
+          { date: "2026-09-02", type: "run", title: "Easy", prescription: "35 min easy", details: ["HR cap 145", "No strides"] },
+          { date: "2026-09-03", type: "gym", title: "Full Body B", prescription: "Gym re-entry only; no run.", details: ["Use the Week 1 priming phase in Gym Tracker"] },
+          { date: "2026-09-04", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-09-05", type: "run", title: "Long easy", prescription: "50 min easy", details: ["HR cap 145", "This is not a distance test"] },
+          { date: "2026-09-06", type: "run", title: "Recovery", prescription: "25 min recovery", details: ["HR cap 145"] }
+        ]
+      },
+      {
+        number: 2,
+        title: "Week 2 - Controlled speed",
+        start: "2026-09-07",
+        end: "2026-09-13",
+        purpose: "Reintroduce controlled speed without threshold or VO2max work. Every one-minute repetition should feel repeatable.",
+        days: [
+          { date: "2026-09-07", type: "run", title: "Controlled speed", prescription: "10 min easy + 6 x 1 min comfortably quick + 10 min easy", details: ["RPE 6 on quick reps", "2 min easy between reps", "Repeatable, never all-out"] },
+          { date: "2026-09-08", type: "gym", title: "Full Body A", prescription: "Gym re-entry only; no run.", details: ["Use the Week 2 restoration phase in Gym Tracker"] },
+          { date: "2026-09-09", type: "run", title: "Easy + strides", prescription: "40 min easy + 4 x 20 sec relaxed strides", details: ["HR cap 145", "Full recovery between strides"] },
+          { date: "2026-09-10", type: "gym", title: "Full Body B", prescription: "Gym re-entry only; no run.", details: ["Use the Week 2 restoration phase in Gym Tracker"] },
+          { date: "2026-09-11", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-09-12", type: "run", title: "Long easy", prescription: "60-65 min easy", details: ["HR cap 145"] },
+          { date: "2026-09-13", type: "run", title: "Recovery", prescription: "30 min recovery", details: ["HR cap 145"] }
+        ]
+      },
+      {
+        number: 3,
+        title: "Week 3 - First threshold",
+        start: "2026-09-14",
+        end: "2026-09-20",
+        purpose: "Introduce threshold by effort and HR, not by forcing the historical 6:45/km pace.",
+        days: [
+          { date: "2026-09-14", type: "run", title: "Controlled threshold", prescription: "10 min easy + 3 x 5 min threshold + 10 min easy", details: ["RPE 6-7", "2 min easy jog between reps", "HR ceiling 175"] },
+          { date: "2026-09-15", type: "gym", title: "Full Body A", prescription: "Gym only; no run.", details: ["Use the Week 3 volume-ramp phase in Gym Tracker"] },
+          { date: "2026-09-16", type: "run", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-09-17", type: "gym", title: "Full Body B", prescription: "Gym only; no run.", details: ["Use the Week 3 volume-ramp phase in Gym Tracker"] },
+          { date: "2026-09-18", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-09-19", type: "run", title: "Long easy", prescription: "70-75 min easy", details: ["HR cap 150"] },
+          { date: "2026-09-20", type: "run", title: "Recovery", prescription: "35 min recovery", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        number: 4,
+        title: "Week 4 - Controlled intervals",
+        start: "2026-09-21",
+        end: "2026-09-27",
+        purpose: "Add repeatable interval work. End the repetitions if pace falls materially or form deteriorates.",
+        days: [
+          { date: "2026-09-21", type: "run", title: "Controlled intervals", prescription: "10 min easy + 5 x 2 min controlled interval + 10 min easy", details: ["RPE 7-8", "2 min easy jog between reps", "Every rep must remain repeatable"] },
+          { date: "2026-09-22", type: "gym", title: "Full Body A", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
+          { date: "2026-09-23", type: "run", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-09-24", type: "gym", title: "Full Body B", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
+          { date: "2026-09-25", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-09-26", type: "run", title: "Long easy", prescription: "80-85 min easy", details: ["HR cap 150"] },
+          { date: "2026-09-27", type: "run", title: "Recovery", prescription: "35 min recovery", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        number: 5,
+        title: "Week 5 - Threshold + cutback",
+        start: "2026-09-28",
+        end: "2026-10-04",
+        purpose: "Consolidate threshold work, cut back the long run, and evaluate the 5K time-trial gate on Sunday.",
+        days: [
+          { date: "2026-09-28", type: "run", title: "Controlled threshold", prescription: "10 min easy + 2 x 8 min threshold + 10 min easy", details: ["RPE 6-7", "3 min easy jog between reps", "HR ceiling 175"] },
+          { date: "2026-09-29", type: "gym", title: "Full Body A", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
+          { date: "2026-09-30", type: "run", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-01", type: "gym", title: "Full Body B", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
+          { date: "2026-10-02", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-10-03", type: "run", title: "Long easy cutback", prescription: "70-75 min easy", details: ["HR cap 150"] },
+          { date: "2026-10-04", type: "run", title: "Recovery + TT gate", prescription: "30-35 min recovery", details: ["HR cap 150", "Evaluate all five time-trial readiness conditions"] }
+        ]
+      },
+      {
+        number: 6,
+        title: "Week 6 - 5K time trial",
+        start: "2026-10-05",
+        end: "2026-10-11",
+        purpose: "Reduce load, preserve freshness, and run the 5K only if the Week 5 readiness gate passed.",
+        days: [
+          { date: "2026-10-05", type: "run", title: "5K-effort sharpener", prescription: "10 min easy + 4 x 2 min at controlled current 5K effort + 10 min easy", details: ["2 min easy jog between reps", "Controlled, not all-out"] },
+          { date: "2026-10-06", type: "gym", title: "Reduced Full Body A", prescription: "Reduced gym only; no run.", details: ["Use the Week 6 TT-taper phase in Gym Tracker"] },
+          { date: "2026-10-07", type: "run", title: "Easy + strides", prescription: "35 min easy + 4 x 20 sec relaxed strides", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-08", type: "rest", title: "Complete rest", prescription: "No gym. Ordinary walking only.", details: [] },
+          { date: "2026-10-09", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-10-10", type: "run", title: "5K all-out time trial", prescription: "15 min easy + 4 relaxed strides + measured 5K + 10 min easy", details: ["Proceed only if the readiness gate passed", "Record splits, HR, RPE, conditions, route, warmup, and cooldown"] },
+          { date: "2026-10-11", type: "run", title: "Recovery or rest", prescription: "25-30 min recovery or complete rest", details: ["HR cap 145", "Rest instead if soreness is more than mild"] }
+        ]
+      }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+
+    function localDate() {
+      const date = new Date();
+      return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+
+    function dateAtNoon(value) {
+      return new Date(`${value}T12:00:00`);
+    }
+
+    function formatDate(value, includeYear = false) {
+      return new Intl.DateTimeFormat("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        ...(includeYear ? { year: "numeric" } : {})
+      }).format(dateAtNoon(value));
+    }
+
+    function formatRange(start, end) {
+      const startText = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(dateAtNoon(start));
+      const endText = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(dateAtNoon(end));
+      return `${startText}-${endText}`;
+    }
+
+    function weekIndexForDate(value) {
+      const exact = weeks.findIndex((week) => value >= week.start && value <= week.end);
+      if (exact >= 0) return exact;
+      return value < weeks[0].start ? 0 : weeks.length - 1;
+    }
+
+    function findNextRun(value) {
+      return weeks
+        .flatMap((week) => week.days.map((day) => ({ ...day, week: week.number })))
+        .find((day) => day.type === "run" && day.date >= value);
+    }
+
+    const currentDate = localDate();
+    const nextRun = findNextRun(currentDate);
+    let selectedWeekIndex = weekIndexForDate(currentDate);
+
+    function renderCycleState() {
+      if (currentDate < weeks[0].start) {
+        const days = Math.ceil((dateAtNoon(weeks[0].start) - dateAtNoon(currentDate)) / 86400000);
+        $("cycleState").textContent = `Starts in ${days}d`;
+        return;
+      }
+      if (currentDate > weeks[weeks.length - 1].end) {
+        $("cycleState").textContent = "Cycle complete";
+        return;
+      }
+      $("cycleState").textContent = `Week ${weekIndexForDate(currentDate) + 1}`;
+    }
+
+    function renderNextRun() {
+      if (!nextRun) {
+        $("nextTitle").textContent = "Cycle complete";
+        $("nextDate").textContent = "Review the completed cycle before setting the next plan.";
+        $("nextWeek").textContent = "Done";
+        $("nextPrescription").textContent = "";
+        $("nextDetails").innerHTML = "";
+        return;
+      }
+
+      $("nextTitle").textContent = nextRun.title;
+      $("nextDate").textContent = formatDate(nextRun.date, true);
+      $("nextWeek").textContent = `Week ${nextRun.week}`;
+      $("nextPrescription").textContent = nextRun.prescription;
+      $("nextDetails").innerHTML = nextRun.details.map((detail) => `<li>${detail}</li>`).join("");
+    }
+
+    function renderWeek(index) {
+      selectedWeekIndex = index;
+      const week = weeks[index];
+      $("weekTitle").textContent = week.title;
+      $("weekRange").textContent = formatRange(week.start, week.end);
+      $("weekPurpose").textContent = week.purpose;
+      $("weekTabs").innerHTML = weeks.map((item, itemIndex) => `
+        <button
+          class="week-tab"
+          type="button"
+          data-week="${itemIndex}"
+          aria-pressed="${itemIndex === index}"
+          aria-label="Show Week ${item.number}"
+        >W${item.number}</button>
+      `).join("");
+
+      $("dayList").innerHTML = week.days.map((day) => {
+        const isToday = day.date === currentDate;
+        const isNext = nextRun && day.date === nextRun.date;
+        const detailList = day.details.length
+          ? `<ul class="detail-list">${day.details.map((detail) => `<li>${detail}</li>`).join("")}</ul>`
+          : "";
+        return `
+          <article class="day-card ${day.type} ${isToday ? "today" : ""} ${isNext ? "next" : ""}">
+            <div class="day-head">
+              <div class="day-date">${formatDate(day.date, true)}${isToday ? " - Today" : ""}</div>
+              <span class="type-pill ${day.type}">${day.type === "run" ? "Run" : day.type === "gym" ? "Gym" : "Rest"}</span>
+            </div>
+            <h3>${day.title}</h3>
+            <p class="prescription">${day.prescription}</p>
+            ${detailList}
+          </article>
+        `;
+      }).join("");
+
+      document.querySelectorAll("[data-week]").forEach((button) => {
+        button.addEventListener("click", () => renderWeek(Number(button.dataset.week)));
+      });
+    }
+
+    renderCycleState();
+    renderNextRun();
+    renderWeek(selectedWeekIndex);
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
