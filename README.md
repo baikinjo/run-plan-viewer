@@ -19,7 +19,7 @@ The canonical source remains:
 
 `C:\Users\injobaik\OneDrive - Microsoft\NSM\running-plan.md`
 
-The app was synchronized with that file on Oct 1, 2026. When the canonical plan changes, the hard-coded plan in `index.html` must be updated and the service-worker cache version incremented.
+The app was synchronized with that file on Oct 2, 2026. When the canonical plan changes, the hard-coded plan in `index.html` must be updated and the service-worker cache version incremented.
 
 ## Run locally
 
