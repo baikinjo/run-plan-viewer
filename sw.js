@@ -1,4 +1,4 @@
-const cacheName = "run-plan-viewer-v2";
+const cacheName = "run-plan-viewer-v3";
 const assets = ["./", "index.html", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", (event) => {

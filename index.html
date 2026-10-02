@@ -329,7 +329,7 @@
     <section class="card">
       <div class="section-head">
         <div>
-          <div class="eyebrow">Cycle 3 &middot; Fresh Start</div>
+          <div id="cycleEyebrow" class="eyebrow"></div>
           <h2 id="weekTitle"></h2>
         </div>
         <div id="weekRange" class="muted small"></div>
@@ -347,9 +347,9 @@
           <p class="pace-rule"><strong>Use pace to start; use HR as a brake.</strong> An HR ceiling is not a target. If HR stays above the cap, slow down even when that means leaving the pace range.</p>
           <dl class="guide-grid">
             <dt>Easy / long</dt>
-            <dd>9:30-10:30/km in Weeks 1-2; 9:00-10:00/km afterward. RPE 2-3 and full sentences.</dd>
+            <dd>9:30-10:30/km during a conservative return; 9:00-10:00/km during normal training. RPE 2-3 and full sentences.</dd>
             <dt>Recovery</dt>
-            <dd>9:45-10:45/km in Weeks 1-2; 9:30-10:30/km afterward.</dd>
+            <dd>9:30-10:30/km during normal training; use 9:45-10:45/km when returning from a gap.</dd>
             <dt>Strides</dt>
             <dd>5:45-6:15/km for about 20 seconds, relaxed and never sprinting, with full recovery.</dd>
             <dt>Week 2 speed</dt>
@@ -357,11 +357,11 @@
             <dt>Threshold</dt>
             <dd>6:50-7:05/km. Start near 7:05/km, RPE 6-7. Slow down if HR stays above 175.</dd>
             <dt>Intervals</dt>
-            <dd>6:20-6:35/km. Start near 6:35/km, RPE 7-8, repeatable and never all-out.</dd>
+            <dd>6:30-6:45/km. Start near 6:45/km, use lap-average pace, RPE 7-8, repeatable and never all-out.</dd>
             <dt>5K sharpener</dt>
-            <dd>6:25-6:40/km. Start near 6:40/km and stay controlled.</dd>
+            <dd>6:30-6:45/km. Start near 6:45/km and stay controlled.</dd>
             <dt>Time trial</dt>
-            <dd>First km 6:35-6:40/km, then increase only if controlled. All-out only after the gate passes.</dd>
+            <dd>First km 6:40-6:45/km, then increase only if controlled. This is optional and all-out only after the gate passes.</dd>
           </dl>
         </div>
       </details>
@@ -380,7 +380,8 @@
           <ul>
             <li>Never make up a missed run, add missed distance elsewhere, or stack quality sessions.</li>
             <li>Preserve sessions in this order: Monday quality, Saturday long, Wednesday easy/strides, Sunday recovery.</li>
-            <li>If fewer than three runs are completed, repeat the next week's dose and shift the remaining cycle and TT by seven days.</li>
+            <li>If fewer than three runs are completed in a Cycle 4 week, repeat the last completed quality and long-run doses rather than progressing them.</li>
+            <li>The optional 5K gate fails rather than moving automatically.</li>
             <li>If Thursday lifting causes soreness of 4/10 or more, cap Saturday at the prior completed long-run duration.</li>
             <li>If soreness changes gait, skip the run.</li>
           </ul>
@@ -388,21 +389,22 @@
       </details>
 
       <details>
-        <summary>Oct 10 time-trial gate</summary>
+        <summary>Optional Nov 21 5K gate</summary>
         <div class="details-body">
           <ol>
             <li>No fever, chest symptoms, unusual breathlessness, palpitations, or illness recurrence.</li>
-            <li>At least three runs completed in each of Weeks 3-5.</li>
-            <li>Week 5 threshold stayed at RPE 7 or lower without sustained HR above 175.</li>
-            <li>Week 5 long run reached at least 70 minutes without altered gait, focal pain, or abnormal next-day fatigue.</li>
-            <li>Easy running returned to stable conversational effort without unexplained HR/RPE rise across two consecutive runs.</li>
+            <li>At least three runs completed in every Cycle 4 Week 1-5.</li>
+            <li>At least four of the five Saturday long runs completed, with the latest reaching at least 80 minutes.</li>
+            <li>The Nov 9 threshold session stayed at RPE 7 or lower without sustained HR above 175.</li>
+            <li>The two most recent easy runs were conversational and stable.</li>
+            <li>The athlete explicitly chooses the benchmark after reviewing the completed evidence.</li>
           </ol>
-          <p>If any condition fails, replace the TT with 45 minutes easy and extend the rebuild.</p>
+          <p>Any failed condition selects the normal closeout branch. Do not move, make up, or force the TT.</p>
         </div>
       </details>
     </section>
 
-    <p class="source-note">Synced from running-plan.md on Aug 27, 2026. The Markdown plan remains the source of truth.</p>
+    <p class="source-note">Synced from running-plan.md on Oct 1, 2026. The Markdown plan remains the source of truth.</p>
   </main>
 
   <script>
@@ -476,31 +478,133 @@
         title: "Week 5 - Threshold + cutback",
         start: "2026-09-28",
         end: "2026-10-04",
-        purpose: "Consolidate threshold work, cut back the long run, and evaluate the 5K time-trial gate on Sunday.",
+        purpose: "The planned running was interrupted. Restart with a shorter easy weekend rather than defending the missed long-run progression.",
         days: [
           { date: "2026-09-28", type: "run", runKind: "threshold", title: "Controlled threshold", prescription: "10 min easy + 2 x 8 min threshold + 10 min easy", pace: "Threshold reps: 6:50-7:05/km; start near 7:05/km", details: ["RPE 6-7", "3 min easy jog between reps", "175 is the upper limit, not the target"] },
           { date: "2026-09-29", type: "gym", title: "Full Body A", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
           { date: "2026-09-30", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
           { date: "2026-10-01", type: "gym", title: "Full Body B", prescription: "Gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
           { date: "2026-10-02", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
-          { date: "2026-10-03", type: "run", runKind: "long", title: "Long easy cutback", prescription: "70-75 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
-          { date: "2026-10-04", type: "run", runKind: "recovery", title: "Recovery + TT gate", prescription: "30-35 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150", "Evaluate all five time-trial readiness conditions"] }
+          { date: "2026-10-03", type: "run", runKind: "easy", title: "Easy restart", prescription: "45-50 min easy", pace: "9:30-10:30/km; start near 10:00/km", details: ["HR cap 150", "Do not defend the missed long-run progression"] },
+          { date: "2026-10-04", type: "run", runKind: "recovery", title: "Recovery", prescription: "25-30 min recovery", pace: "9:45-10:45/km", details: ["HR cap 150"] }
         ]
       },
       {
         number: 6,
-        title: "Week 6 - 5K time trial",
+        title: "Week 6 - Normal consolidation",
         start: "2026-10-05",
         end: "2026-10-11",
-        purpose: "Reduce load, preserve freshness, and run the 5K only if the Week 5 readiness gate passed.",
+        purpose: "Restore the normal four-run/two-lift schedule, repeat the last completed long-run duration, and close Cycle 3 without a time trial.",
         days: [
-          { date: "2026-10-05", type: "run", runKind: "five-k", title: "5K-effort sharpener", prescription: "10 min easy + 4 x 2 min at controlled current 5K effort + 10 min easy", pace: "5K-effort reps: 6:25-6:40/km; start near 6:40/km", details: ["2 min easy jog between reps", "Controlled, not all-out"] },
-          { date: "2026-10-06", type: "gym", title: "Reduced Full Body A", prescription: "Reduced gym only; no run.", details: ["Use the Week 6 TT-taper phase in Gym Tracker"] },
-          { date: "2026-10-07", type: "run", runKind: "strides", title: "Easy + strides", prescription: "35 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
-          { date: "2026-10-08", type: "rest", title: "Complete rest", prescription: "No gym. Ordinary walking only.", details: [] },
+          { date: "2026-10-05", type: "run", runKind: "easy", title: "Easy", prescription: "30-35 min easy", pace: "9:30-10:30/km; start near 10:00/km", details: ["HR cap 150", "No quality work"] },
+          { date: "2026-10-06", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: ["Use the normal-training phase in Gym Tracker", "Hold current loads"] },
+          { date: "2026-10-07", type: "run", runKind: "strides", title: "Easy + strides", prescription: "40 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:30-10:30/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-08", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: ["Use the normal-training phase in Gym Tracker", "Hold current loads"] },
           { date: "2026-10-09", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
-          { date: "2026-10-10", type: "run", runKind: "time-trial", title: "5K all-out time trial", prescription: "15 min easy + 4 relaxed strides + measured 5K + 10 min easy", pace: "First km: 6:35-6:40/km; increase only if controlled", details: ["Proceed only if the readiness gate passed", "Race the final kilometres by effort", "Record splits, HR, RPE, conditions, route, warmup, and cooldown"] },
-          { date: "2026-10-11", type: "run", runKind: "recovery", title: "Recovery or rest", prescription: "25-30 min recovery or complete rest", pace: "9:45-10:45/km", details: ["HR cap 145", "Rest instead if soreness is more than mild"] }
+          { date: "2026-10-10", type: "run", runKind: "long", title: "Long easy", prescription: "60-65 min easy", pace: "9:30-10:30/km; start near 10:00/km", details: ["HR cap 150", "Repeat the last completed long-run duration"] },
+          { date: "2026-10-11", type: "run", runKind: "recovery", title: "Recovery", prescription: "30 min recovery", pace: "9:45-10:45/km", details: ["HR cap 150", "Cycle 3 closes after this run"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 1,
+        title: "Week 1 - Controlled quality return",
+        start: "2026-10-12",
+        end: "2026-10-18",
+        purpose: "Begin Cycle 4 with repeatable threshold work and a small long-run progression.",
+        days: [
+          { date: "2026-10-12", type: "run", runKind: "threshold", title: "Controlled threshold", prescription: "10 min easy + 3 x 5 min threshold + 10 min easy", pace: "Threshold reps: 6:50-7:05/km; start near 7:05/km", details: ["RPE 6-7", "2 min easy jog between reps", "HR cap 175"] },
+          { date: "2026-10-13", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: ["Use the normal-training phase in Gym Tracker"] },
+          { date: "2026-10-14", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-15", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: ["Eligible exercises may take the smallest load increase if running recovery is normal"] },
+          { date: "2026-10-16", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-10-17", type: "run", runKind: "long", title: "Long easy", prescription: "65-70 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
+          { date: "2026-10-18", type: "run", runKind: "recovery", title: "Recovery", prescription: "30 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 2,
+        title: "Week 2 - Controlled speed",
+        start: "2026-10-19",
+        end: "2026-10-25",
+        purpose: "Use short, even repetitions without turning the session into threshold or VO2max work.",
+        days: [
+          { date: "2026-10-19", type: "run", runKind: "speed", title: "Controlled speed", prescription: "10 min easy + 6 x 1 min quick + 10 min easy", pace: "Quick reps: 6:45-7:00/km; start near 7:00/km", details: ["RPE 6", "2 min easy between reps", "Every repetition should look alike"] },
+          { date: "2026-10-20", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-10-21", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-22", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-10-23", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-10-24", type: "run", runKind: "long", title: "Long easy", prescription: "70-75 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
+          { date: "2026-10-25", type: "run", runKind: "recovery", title: "Recovery", prescription: "30-35 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 3,
+        title: "Week 3 - Threshold extension",
+        start: "2026-10-26",
+        end: "2026-11-01",
+        purpose: "Extend controlled threshold duration without increasing pace.",
+        days: [
+          { date: "2026-10-26", type: "run", runKind: "threshold", title: "Controlled threshold", prescription: "10 min easy + 2 x 8 min threshold + 10 min easy", pace: "Threshold reps: 6:50-7:05/km; start near 7:05/km", details: ["RPE 6-7", "3 min easy jog between reps", "HR cap 175"] },
+          { date: "2026-10-27", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-10-28", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-10-29", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-10-30", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-10-31", type: "run", runKind: "long", title: "Long easy", prescription: "75-80 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
+          { date: "2026-11-01", type: "run", runKind: "recovery", title: "Recovery", prescription: "35 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 4,
+        title: "Week 4 - Controlled intervals",
+        start: "2026-11-02",
+        end: "2026-11-08",
+        purpose: "Reintroduce repeatable two-minute interval work using lap-average pace instead of chasing instantaneous pace.",
+        days: [
+          { date: "2026-11-02", type: "run", runKind: "intervals", title: "Controlled intervals", prescription: "10 min easy + 5 x 2 min controlled interval + 10 min easy", pace: "Interval reps: 6:30-6:45/km; start near 6:45/km", details: ["RPE 7-8", "2 min easy jog between reps", "Stop if repeatability is lost"] },
+          { date: "2026-11-03", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-11-04", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-11-05", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-11-06", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-11-07", type: "run", runKind: "long", title: "Long easy", prescription: "80-85 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
+          { date: "2026-11-08", type: "run", runKind: "recovery", title: "Recovery", prescription: "35 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 5,
+        title: "Week 5 - Threshold consolidation",
+        start: "2026-11-09",
+        end: "2026-11-15",
+        purpose: "Complete the longest threshold and long-run doses of the cycle, then evaluate the optional 5K gate.",
+        days: [
+          { date: "2026-11-09", type: "run", runKind: "threshold", title: "Controlled threshold", prescription: "10 min easy + 2 x 10 min threshold + 10 min easy", pace: "Threshold reps: 6:50-7:05/km; start near 7:05/km", details: ["RPE 6-7", "3 min easy jog between reps", "HR cap 175"] },
+          { date: "2026-11-10", type: "gym", title: "Full Body A", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-11-11", type: "run", runKind: "strides", title: "Easy + strides", prescription: "45 min easy + 4 x 20 sec relaxed strides", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-11-12", type: "gym", title: "Full Body B", prescription: "Normal gym only; no run.", details: [] },
+          { date: "2026-11-13", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-11-14", type: "run", runKind: "long", title: "Long easy", prescription: "85-90 min easy", pace: "9:00-10:00/km; start near 9:30/km", details: ["HR cap 150"] },
+          { date: "2026-11-15", type: "run", runKind: "recovery", title: "Recovery + optional 5K gate", prescription: "30-35 min recovery", pace: "9:30-10:30/km", details: ["HR cap 150", "Evaluate all six readiness conditions"] }
+        ]
+      },
+      {
+        cycle: 4,
+        number: 6,
+        title: "Week 6 - Gated benchmark or normal closeout",
+        start: "2026-11-16",
+        end: "2026-11-22",
+        purpose: "Use the benchmark branch only if every gate passes and the athlete chooses it; otherwise finish with normal running and gym.",
+        days: [
+          { date: "2026-11-16", type: "run", runKind: "five-k", title: "Sharpener or easy", prescription: "TT branch: 10 min easy + 4 x 2 min controlled + 10 min easy. Normal branch: 30-40 min easy.", pace: "TT reps: 6:30-6:45/km; normal easy: 9:00-10:00/km", details: ["Select the branch from the Nov 15 gate", "No all-out running"] },
+          { date: "2026-11-17", type: "gym", title: "Full Body A", prescription: "TT branch: 1-2 sets at 4 RIR. Normal branch: normal Full Body A.", details: ["Choose the matching phase in Gym Tracker"] },
+          { date: "2026-11-18", type: "run", runKind: "strides", title: "Easy + strides", prescription: "TT branch: 35 min easy. Normal branch: 40-45 min easy. Both add 4 relaxed strides.", pace: "Easy: 9:00-10:00/km; strides: 5:45-6:15/km", details: ["HR cap 150", "Full recovery between strides"] },
+          { date: "2026-11-19", type: "gym", title: "Full Body B or rest", prescription: "TT branch: no gym. Normal branch: normal Full Body B.", details: ["Choose the matching phase in Gym Tracker"] },
+          { date: "2026-11-20", type: "rest", title: "Complete rest", prescription: "No running or lifting.", details: [] },
+          { date: "2026-11-21", type: "run", runKind: "time-trial", title: "Optional 5K or long easy", prescription: "TT branch: measured 5K with warmup/cooldown. Normal branch: 75-80 min easy.", pace: "TT first km: 6:40-6:45/km; normal easy: 9:00-10:00/km", details: ["Any failed gate condition selects the normal branch", "Do not move or make up the TT"] },
+          { date: "2026-11-22", type: "run", runKind: "recovery", title: "Recovery", prescription: "TT branch: 25-30 min or rest. Normal branch: 30 min recovery.", pace: "9:30-10:30/km", details: ["TT branch HR cap 145", "Normal branch HR cap 150"] }
         ]
       }
     ];
@@ -551,7 +655,7 @@
 
     function findNextRun(value) {
       return weeks
-        .flatMap((week) => week.days.map((day) => ({ ...day, week: week.number })))
+        .flatMap((week) => week.days.map((day) => ({ ...day, cycle: week.cycle || 3, week: week.number })))
         .find((day) => day.type === "run" && day.date >= value);
     }
 
@@ -569,7 +673,8 @@
         $("cycleState").textContent = "Cycle complete";
         return;
       }
-      $("cycleState").textContent = `Week ${weekIndexForDate(currentDate) + 1}`;
+      const week = weeks[weekIndexForDate(currentDate)];
+      $("cycleState").textContent = `Cycle ${week.cycle || 3} · Week ${week.number}`;
     }
 
     function renderNextRun() {
@@ -589,7 +694,7 @@
       $("nextDate").textContent = formatDate(nextRun.date, true);
       $("nextType").textContent = runKindLabels[nextRun.runKind];
       $("nextType").className = `type-pill run-${nextRun.runKind}`;
-      $("nextWeek").textContent = `Week ${nextRun.week}`;
+      $("nextWeek").textContent = `Cycle ${nextRun.cycle} · Week ${nextRun.week}`;
       $("nextPrescription").textContent = nextRun.prescription;
       $("nextPace").textContent = `Pace guide: ${nextRun.pace}`;
       $("nextDetails").innerHTML = nextRun.details.map((detail) => `<li>${detail}</li>`).join("");
@@ -598,6 +703,7 @@
     function renderWeek(index) {
       selectedWeekIndex = index;
       const week = weeks[index];
+      $("cycleEyebrow").textContent = `Cycle ${week.cycle || 3} · ${week.cycle === 4 ? "Consistency + 10K Base" : "Fresh Start"}`;
       $("weekTitle").textContent = week.title;
       $("weekRange").textContent = formatRange(week.start, week.end);
       $("weekPurpose").textContent = week.purpose;
@@ -607,8 +713,8 @@
           type="button"
           data-week="${itemIndex}"
           aria-pressed="${itemIndex === index}"
-          aria-label="Show Week ${item.number}"
-        >W${item.number}</button>
+          aria-label="Show Cycle ${item.cycle || 3} Week ${item.number}"
+        >C${item.cycle || 3}W${item.number}</button>
       `).join("");
 
       $("dayList").innerHTML = week.days.filter((day) => day.type === "run").map((day) => {

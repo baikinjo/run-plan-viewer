@@ -4,13 +4,13 @@ A dependency-free, read-only running-plan PWA designed for iPhone Safari and Git
 
 ## Features
 
-- Automatically selects the current week in Cycle 3
+- Automatically selects the current week across the Cycle 3 closeout and Cycle 4
 - Shows the next scheduled run
 - Displays all seven days so gym and rest-day context stays visible
-- Includes the exact running prescriptions for Aug 31-Oct 11, 2026
-- Shows temporary, history-based pace ranges for every run until the Oct 10 time trial recalibrates them
+- Includes the exact running prescriptions through Nov 22, 2026
+- Shows temporary, history-based pace ranges until a future valid benchmark recalibrates them
 - Lists only run days and color-codes each card by run type
-- Includes effort definitions, readiness rules, weekly adjustment rules, and the 5K time-trial gate
+- Includes effort definitions, readiness rules, weekly adjustment rules, and the optional Nov 21 5K gate
 - Supports manual week navigation
 - Works offline after the first successful visit
 - Contains no workout-entry fields, history, or local workout storage
@@ -19,7 +19,7 @@ The canonical source remains:
 
 `C:\Users\injobaik\OneDrive - Microsoft\NSM\running-plan.md`
 
-The app was synchronized with that file on Aug 27, 2026. When the canonical plan changes, the hard-coded plan in `index.html` must be updated and the service-worker cache version incremented.
+The app was synchronized with that file on Oct 1, 2026. When the canonical plan changes, the hard-coded plan in `index.html` must be updated and the service-worker cache version incremented.
 
 ## Run locally
 
